@@ -65,17 +65,12 @@ class DriverLicenseUpdateForm(forms.ModelForm):
 def validate_license_number(license_number):
     if not isinstance(license_number, str):
         raise ValidationError("Invalid license number format.")
-
     if len(license_number) != 8:
         raise ValidationError("License number should consist of 8 characters")
-
     prefix = license_number[:3]
     suffix = license_number[3:]
-
     if not prefix.isalpha() or not prefix.isupper():
         raise ValidationError("First 3 characters should be uppercase letters")
-
     if not suffix.isdigit():
         raise ValidationError("Last 5 characters should be digits")
-
     return license_number

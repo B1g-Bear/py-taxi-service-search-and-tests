@@ -9,9 +9,9 @@
   </h1>
 
   <form method="get" action="" class="mb-3">
-    {{ search_form.q }}
+    {{ search_form.query }}
     <button type="submit" class="btn btn-primary">Search</button>
-    {% if request.GET.q %}
+    {% if request.GET.query %}
       <a href="{% url 'taxi:manufacturer-list' %}" class="btn btn-secondary">Clear</a>
     {% endif %}
   </form>
@@ -50,11 +50,11 @@
   {% if is_paginated %}
     <nav>
       {% if page_obj.has_previous %}
-        <a href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}">Prev</a>
+        <a href="?query={{ request.GET.query }}&page={{ page_obj.previous_page_number }}">Prev</a>
       {% endif %}
       Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
       {% if page_obj.has_next %}
-        <a href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}">Next</a>
+        <a href="?query={{ request.GET.query }}&page={{ page_obj.next_page_number }}">Next</a>
       {% endif %}
     </nav>
   {% endif %}

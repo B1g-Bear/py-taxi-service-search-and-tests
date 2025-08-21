@@ -40,7 +40,7 @@ class ManufacturerListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        query = self.request.GET.get("q", "").strip()
+        query = self.request.GET.get("query", "").strip()
         if query:
             queryset = queryset.filter(name__icontains=query)
         return queryset
@@ -48,7 +48,7 @@ class ManufacturerListView(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["search_form"] = SearchForm(
-            initial={"query": self.request.GET.get("q", "")}
+            initial={"query": self.request.GET.get("query", "")}
         )
         return context
 
@@ -77,7 +77,7 @@ class CarListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        query = self.request.GET.get("q", "").strip()
+        query = self.request.GET.get("query", "").strip()
         if query:
             queryset = queryset.filter(model__icontains=query)
         return queryset
@@ -85,7 +85,7 @@ class CarListView(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["search_form"] = SearchForm(
-            initial={"query": self.request.GET.get("q", "")}
+            initial={"query": self.request.GET.get("query", "")}
         )
         return context
 
@@ -117,7 +117,7 @@ class DriverListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        query = self.request.GET.get("q", "").strip()
+        query = self.request.GET.get("query", "").strip()
         if query:
             queryset = queryset.filter(username__icontains=query)
         return queryset
@@ -125,7 +125,7 @@ class DriverListView(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["search_form"] = SearchForm(
-            initial={"query": self.request.GET.get("q", "")}
+            initial={"query": self.request.GET.get("query", "")}
         )
         return context
 
