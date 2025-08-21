@@ -133,7 +133,9 @@ class CarCRUDTest(TestCase):
         self.assertEqual(Car.objects.filter(model="Camry").count(), 1)
 
     def test_car_update(self):
-        car = Car.objects.create(model="OldModel", manufacturer=self.manufacturer)
+        car = Car.objects.create(model="OldModel",
+                                 manufacturer=self.manufacturer
+                                 )
         self.client.post(
             reverse("taxi:car-update", args=[car.id]),
             {
@@ -154,12 +156,12 @@ class DriverSearchTest(TestCase):
         self.driver1 = Driver.objects.create_user(
             username="alice",
             password="pass12345",
-            license_number="AAA11111"
+            license_number="AAA11111",
         )
         self.driver2 = Driver.objects.create_user(
             username="bob",
             password="pass12345",
-            license_number="BBB22222"
+            license_number="BBB22222",
         )
         self.client.login(username="alice", password="pass12345")
 
@@ -168,24 +170,35 @@ class DriverSearchTest(TestCase):
         self.assertEqual(len(response.context["driver_list"]), 2)
 
     def test_search_partial_match(self):
-        response = self.client.get(reverse("taxi:driver-list"), {"query": "ali"})
+        response = self.client.get(reverse("taxi:driver-list"),
+                                   {"query": "ali"}
+                                   )
         self.assertIn(self.driver1, response.context["driver_list"])
         self.assertNotIn(self.driver2, response.context["driver_list"])
 
     def test_search_case_insensitive(self):
-        response = self.client.get(reverse("taxi:driver-list"), {"query": "ALICE"})
+        response = self.client.get(reverse("taxi:driver-list"),
+                                   {"query": "ALICE"}
+                                   )
         self.assertIn(self.driver1, response.context["driver_list"])
 
 
 class CarSearchTest(TestCase):
     def setUp(self):
-        self.manufacturer = Manufacturer.objects.create(name="Toyota", country="Japan")
-        self.car1 = Car.objects.create(model="Camry", manufacturer=self.manufacturer)
-        self.car2 = Car.objects.create(model="Corolla", manufacturer=self.manufacturer)
+        self.manufacturer = Manufacturer.objects.create(
+            name="Toyota",
+            country="Japan",
+        )
+        self.car1 = Car.objects.create(model="Camry",
+                                       manufacturer=self.manufacturer
+                                       )
+        self.car2 = Car.objects.create(model="Corolla",
+                                       manufacturer=self.manufacturer
+                                       )
         self.user = Driver.objects.create_user(
             username="alice",
             password="pass12345",
-            license_number="AAA11111"
+            license_number="AAA11111",
         )
         self.client.login(username="alice", password="pass12345")
 
@@ -199,7 +212,9 @@ class CarSearchTest(TestCase):
         self.assertNotIn(self.car2, response.context["car_list"])
 
     def test_search_case_insensitive(self):
-        response = self.client.get(reverse("taxi:car-list"), {"query": "camry"})
+        response = self.client.get(reverse("taxi:car-list"),
+                                   {"query": "camry"}
+                                   )
         self.assertIn(self.car1, response.context["car_list"])
 
 
@@ -210,7 +225,7 @@ class ManufacturerSearchTest(TestCase):
         self.user = Driver.objects.create_user(
             username="alice",
             password="pass12345",
-            license_number="AAA11111"
+            license_number="AAA11111",
         )
         self.client.login(username="alice", password="pass12345")
 
@@ -219,10 +234,14 @@ class ManufacturerSearchTest(TestCase):
         self.assertEqual(len(response.context["manufacturer_list"]), 2)
 
     def test_search_partial_match(self):
-        response = self.client.get(reverse("taxi:manufacturer-list"), {"query": "Toy"})
+        response = self.client.get(reverse("taxi:manufacturer-list"),
+                                   {"query": "Toy"}
+                                   )
         self.assertIn(self.m1, response.context["manufacturer_list"])
         self.assertNotIn(self.m2, response.context["manufacturer_list"])
 
     def test_search_case_insensitive(self):
-        response = self.client.get(reverse("taxi:manufacturer-list"), {"query": "TOYOTA"})
+        response = self.client.get(reverse("taxi:manufacturer-list"),
+                                   {"query": "TOYOTA"}
+                                   )
         self.assertIn(self.m1, response.context["manufacturer_list"])
